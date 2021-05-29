@@ -29,11 +29,11 @@ include_directories(${PROJECT_SOURCE_DIR}/libutest)
 
 include_directories(${PROJECT_SOURCE_DIR}/upanlibstests/mocks)
 
-include_directories(${UPANLIB_SOURCE_DIR}/libustdcpp/infra)
-include_directories(${UPANLIB_SOURCE_DIR}/libustdcpp/algo)
-include_directories(${UPANLIB_SOURCE_DIR}/libustdcpp/ds)
-include_directories(${UPANLIB_SOURCE_DIR}/libustdcpp/mem)
-include_directories(${UPANLIB_SOURCE_DIR}/libustdcpp/mthread)
+include_directories(${UPANLIB_SOURCE_DIR}/libustd/infra)
+include_directories(${UPANLIB_SOURCE_DIR}/libustd/algo)
+include_directories(${UPANLIB_SOURCE_DIR}/libustd/ds)
+include_directories(${UPANLIB_SOURCE_DIR}/libustd/mem)
+include_directories(${UPANLIB_SOURCE_DIR}/libustd/mthread)
 
 #LIBUTEST
 execute_process(COMMAND bash -c "cd ${PROJECT_SOURCE_DIR}; find ./libutest -name '*.cpp' | grep -v CMakeFile" OUTPUT_VARIABLE LIB_UTEST_CPP_SRC)
