@@ -24,19 +24,35 @@
 class Testatomic : public TestSuite<Testatomic> {
 public:
   Testatomic() : TestSuite("ustdcpp_atomic") {
-    add("testAtomicSwap", &Testatomic::testAtomicSwap);
+    add("testAtomicOp", &Testatomic::testAtomicOp);
+    add("testAtomicUint32", &Testatomic::testAtomicUint32);
   }
 
-  void testAtomicSwap() {
-    upan::mutex m ;
+  void testAtomicOp() {
+    __volatile__ uint32_t lock = 0;
 
-    ASSERT_CONDITION(m._lock == 0) ;
-    ASSERT_CONDITION(upan::atomic::swap(m._lock, 1) == 0) ;
-    ASSERT_CONDITION(m._lock == 1) ;
-    ASSERT_CONDITION(upan::atomic::swap(m._lock, 0) == 1) ;
-    ASSERT_CONDITION(m._lock == 0) ;
-    ASSERT_CONDITION(upan::atomic::swap(m._lock, 1) == 0) ;
-    ASSERT_CONDITION(m._lock == 1) ;
+    ASSERT_CONDITION(lock == 0) ;
+    ASSERT_CONDITION(upan::atomic::op::swap(lock, 1) == 0) ;
+    ASSERT_CONDITION(lock == 1) ;
+    ASSERT_CONDITION(upan::atomic::op::swap(lock, 0) == 1) ;
+    ASSERT_CONDITION(lock == 0) ;
+    ASSERT_CONDITION(upan::atomic::op::add(lock, 10) == 0) ;
+    ASSERT_CONDITION(lock == 10) ;
+    ASSERT_CONDITION(upan::atomic::op::add(lock, 10) == 10) ;
+    ASSERT_CONDITION(lock == 20) ;
+  }
+
+  void testAtomicUint32() {
+    upan::atomic::integral<uint32_t> val(100);
+    ASSERT_CONDITION(val.get() == 100);
+    ASSERT_CONDITION(val.set(101) == 100);
+    ASSERT_CONDITION(val.get() == 101);
+    ASSERT_CONDITION(val.add(10) == 101);
+    ASSERT_CONDITION(val.get() == 111);
+    ASSERT_CONDITION(val.inc() == 111);
+    ASSERT_CONDITION(val.get() == 112);
+    ASSERT_CONDITION(val.dec() == 112);
+    ASSERT_CONDITION(val.get() == 111);
   }
 };
 
